@@ -7,9 +7,20 @@ namespace HW2
         {
             Console.WriteLine("Введите размер массива:");
             int leghtOfArray = ReadInt();
-            Console.WriteLine("Введите числа-элементы массива:");
-            int[] userArray = GetArray(leghtOfArray);
-            SecondMaximum(userArray);
+            try
+            {
+                int[] userArray = GetArray(leghtOfArray);
+                GetSecondMaximum(userArray);
+            }
+            catch (IndexOutOfRangeException) //опытным путём было выяснено, что если все числа одинаковы, то выпадает именно эта ошибка
+            {
+                Console.WriteLine("Массив состоит из одинаковых чисел. Создайте новый.");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Размер массива должен быть больше 1");
+            }
+            
         }
 
         public static int ReadInt()
@@ -22,20 +33,21 @@ namespace HW2
                 {
                     checkFormat = true;
                 }
-                else throw new FormatException("Вы ввели не число");
+                else Console.WriteLine("Вы ввели не число. Повторите ввод"); //исправлено, программа мучает юзера пока не увидит тут число
             }
             return number;
         }
 
-        public static int[] GetArray(int leghtOfArray)
+        public static int[] GetArray(int leghtOfArray) //теперь обработка ошибки происходит в мэйне
         {
             if (leghtOfArray <= 1)
             {
-                throw new Exception("Размер массива должен быть больше 1");
+                throw new Exception();
             }
             else
             {
                 int[] userArray = new int [leghtOfArray];
+                Console.WriteLine("Введите числа-элементы массива:");
                 for (int i = 0; i < leghtOfArray; i++)
                 {
                     userArray[i] = ReadInt();
@@ -45,28 +57,14 @@ namespace HW2
             
         }
 
-        public static void SecondMaximum(int[] userArray)
+        public static void GetSecondMaximum(int[] userArray) //название исправлено!
         {
             Array.Sort(userArray);
             Array.Reverse(userArray);
             int secMax = 0;
-            try
-            {
-                for (int i = 0; i < userArray.Length;)
-                {
-                    while (userArray[i] == userArray[i + 1])
-                    {
-                        i++;
-                    }
-                    secMax = userArray[i + 1];
-                    break;
-                }
-                Console.WriteLine($"Второе максимальное число: {secMax}");
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Массив состоит из одинаковых чисел. Создайте новый.");
-            }
+            int[] userArray1 = userArray.Distinct().ToArray(); //мозги додумались до более простого способа найти максимум без использования циклов))
+            secMax = userArray1[1];
+            Console.WriteLine($"Второе максимальное число: {secMax}");
         }
     }
 }
