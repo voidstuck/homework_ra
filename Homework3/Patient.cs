@@ -2,40 +2,56 @@ namespace Homework3;
 
 public class Patient
 {
+    public enum Symptom
+    {
+        Nothing = 0,
+        Cough = 1,
+        Sickness = 2,
+        Dizziness = 3,
+        HearingLoss = 4
+    }
+
     public string Name { get; }
     public int Age { get; }
-    public string Symptom { get; }
-    public int SymptomToInt;
-    
-    public int GetSymptomToInt() 
-    {
-        switch (Symptom)
-        {
-            case "Кашель" : SymptomToInt = 1;
-                break;
-            case "Тошнота" : SymptomToInt = 2;
-                break;
-            case "Головокружение" : SymptomToInt = 3;
-                break;
-            case "Снижение слуха" : SymptomToInt = 4;
-                break;
-            default: SymptomToInt = 0;
-                break;
-        }
-        return SymptomToInt;
-    }
-    
-    public Patient(string name, int age, string symptom)
+
+    public Symptom SymptomP { get; }
+
+    public Patient(string name, int age, Symptom symptom)
     {
         Name = name;
         Age = age;
-        Symptom = symptom;
-        SymptomToInt = GetSymptomToInt();
+        SymptomP = symptom;
+    }
+
+    protected string SymptomToRus()
+    {
+        string rusSymptom;
+        switch (SymptomP)
+        {
+            case Symptom.Cough:
+                rusSymptom = "Кашель";
+                break;
+            case Symptom.Dizziness:
+                rusSymptom = "Головокружение";
+                break;
+            case Symptom.Sickness:
+                rusSymptom = "Тошнота";
+                break;
+            case Symptom.HearingLoss:
+                rusSymptom = "Снижение слуха";
+                break;
+            case Symptom.Nothing:
+                rusSymptom = "Жалоб нет";
+                break;
+            default:
+                rusSymptom = "Неизвестно";
+                break;
+        }
+        return rusSymptom;
     }
 
     public void DisplayInfo()
     {
-        Console.WriteLine($"Пациент {Name}, {Age}, жалуется на симптом {Symptom}");
+        Console.WriteLine($"Пациент {Name}, {Age}, жалуется на симптом: {SymptomToRus()}");
     }
-
 }

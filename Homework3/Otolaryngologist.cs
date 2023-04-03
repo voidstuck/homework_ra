@@ -2,28 +2,23 @@ namespace Homework3;
 
 public class Otolaryngologist : Doctor
 {
-    public Otolaryngologist(string name, int age, string speciality) : base(name, age, speciality) { }
+    public Otolaryngologist(string name, int age, Speciality speciality) : base(name, age, speciality) { }
 
     public override void DisplayInfoAboutDoctor()
     {
-        Console.WriteLine($"{Name}, {Age} - отоларинголог. В народе эта специальность известна как ЛОР. Врач лечит ухо, горло, нос");
+        Console.WriteLine($"{Name}, {Age} - {SpecialityToRus()}. В народе эта специальность известна как ЛОР. Врач лечит ухо, горло, нос");
     }
 
-    public override int GetAbilityToCure()
+    public override void Cure(Doctor doctor, Patient patient)
     {
-        switch (Speciality)
+        Console.WriteLine($"Вас лечит врач: {doctor.Name}, {doctor.Age}");
+        if (patient.SymptomP == Patient.Symptom.HearingLoss)
+            Console.WriteLine("Врач успешно вылечил пациента\n");
+        else
         {
-            case "Терапевт" : AbilityToCure = 1;
-                break;
-            case "Гастроэнтеролог" : AbilityToCure = 2;
-                break;
-            case "Невролог" : AbilityToCure = 3;
-                break;
-            case "Отоларинголог" : AbilityToCure = 4;
-                break;
-            default: AbilityToCure = 1;
-                break;
+            Console.WriteLine("Данный специалист не смог помочь пациенту...");
+            doctor.DisplayInfoAboutDoctor();
+            Console.WriteLine("Обратитесь к другому специалисту.\n");
         }
-        return AbilityToCure;
     }
 }

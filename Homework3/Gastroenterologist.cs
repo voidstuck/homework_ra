@@ -2,28 +2,25 @@ namespace Homework3;
 
 public class Gastroenterologist : Doctor
 {
-    public Gastroenterologist(string name, int age, string speciality) : base(name, age, speciality) { }
+    public Gastroenterologist(string name, int age, Speciality speciality) : base(name, age, speciality)
+    {
+    }
 
     public override void DisplayInfoAboutDoctor()
     {
-        Console.WriteLine($"{Name}, {Age} - гастроэнтеролог. Это такие врачи, которые занимаются лечением заболеваний желудочно-кишечного тракта");
+        Console.WriteLine($"{Name}, {Age} - {SpecialityToRus()}. Это такие врачи, которые занимаются лечением заболеваний желудочно-кишечного тракта");
     }
 
-    public override int GetAbilityToCure()
+    public override void Cure(Doctor doctor, Patient patient)
     {
-        switch (Speciality)
+        Console.WriteLine($"Вас лечит врач: {doctor.Name}, {doctor.Age}");
+        if (patient.SymptomP == Patient.Symptom.Sickness)
+            Console.WriteLine("Врач успешно вылечил пациента\n");
+        else
         {
-            case "Терапевт" : AbilityToCure = 1;
-                break;
-            case "Гастроэнтеролог" : AbilityToCure = 2;
-                break;
-            case "Невролог" : AbilityToCure = 3;
-                break;
-            case "Отоларинголог" : AbilityToCure = 4;
-                break;
-            default: AbilityToCure = 1;
-                break;
+            Console.WriteLine("Данный специалист не смог помочь пациенту...");
+            doctor.DisplayInfoAboutDoctor();
+            Console.WriteLine("Обратитесь к другому специалисту.\n");
         }
-        return AbilityToCure;
     }
 }

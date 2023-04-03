@@ -2,28 +2,58 @@ namespace Homework3;
 
 public abstract class Doctor
 {
+    public enum Speciality
+    {
+        Therapeutist = 1,
+        Gastroenterologist = 2,
+        Neurologist = 3,
+        Otolaryngologist = 4
+    }
+
     public string Name { get; }
+
     public int Age { get; }
-    public string Speciality { get; }
-    protected int AbilityToCure;
-    
-    public Doctor(string name, int age, string speciality)
+    public Speciality SpecialityD { get; }
+
+    public Doctor(string name, int age, Speciality speciality)
     {
         Name = name;
         Age = age;
-        Speciality = speciality;
-        AbilityToCure = GetAbilityToCure();
+        SpecialityD = speciality;
     }
 
     public abstract void DisplayInfoAboutDoctor();
-    public abstract int GetAbilityToCure();
-    
-    public void ExaminationOfPatient (Doctor doctor, Patient patient)
+    protected string SpecialityToRus()
     {
-        if (patient.SymptomToInt == 0)
+        string rusSpec;
+        switch (SpecialityD)
+        {
+            case Speciality.Gastroenterologist:
+                rusSpec = "Гастроэнтеролог";
+                break;
+            case Speciality.Neurologist:
+                rusSpec = "Невролог";
+                break;
+            case Speciality.Otolaryngologist:
+                rusSpec = "Отоларинголог";
+                break;
+            case Speciality.Therapeutist:
+                rusSpec = "Терапевт";
+                break;
+            default:
+                rusSpec = "Неизвестно";
+                break;
+        }
+        return rusSpec;
+    }
+
+    public void ExaminationOfPatient(Doctor doctor, Patient patient)
+    {
+        if (patient.SymptomP == Patient.Symptom.Nothing)
         {
             patient.DisplayInfo();
-            Console.WriteLine($"По результатам обследования - здоров! Осматривал врач: {doctor.Name}, {doctor.Speciality}\n");
+            Console.WriteLine(
+                $"По результатам обследования - здоров! Осматривал врач: {doctor.Name}, {SpecialityToRus()}\n");
         }
         else
         {
@@ -33,17 +63,5 @@ public abstract class Doctor
         }
     }
 
-    public void Cure(Doctor doctor, Patient patient)
-    {
-        Console.WriteLine($"Вас лечит врач: {doctor.Name}, {doctor.Age}");
-        if (doctor.AbilityToCure == patient.SymptomToInt)
-            Console.WriteLine("Врач успешно вылечил пациента\n");
-        else
-        {
-            Console.WriteLine("Данный специалист не смог помочь пациенту...");
-            doctor.DisplayInfoAboutDoctor();
-            Console.WriteLine("Обратитесь к другому специалисту.\n");
-        }
-    }
-
+    public abstract void Cure(Doctor doctor, Patient patient);
 }
