@@ -1,4 +1,6 @@
-﻿/*
+﻿//вторая программа теперь лежит в отдельном проекте!
+
+/*
 Вторая программа:
 1. Считывает путь к файлу из %AppData%/Lesson12Homework.txt
 2. Открывает указанный файл .csv
@@ -8,13 +10,17 @@
 */
 using System.Reflection.Metadata.Ecma335;
 
-namespace HW5_prog1
+namespace HW5_prog2
 {
-    public class Program2
+    public class Program 
     {
         public const string targetFolder = "D:\\Progs\\gitfolder\\SmartGit\\homework_ra.git\\HW5\\HW5_prog1";
         public const string pathToTxtFile = "AppData\\Lesson12Homework.txt";
-        public const string Delimeter = "\\t";
+        public const string delimeter = "\\t\\n \\n"; //добавил пустую стороку снизу
+        static void Main(string[] args)
+        {
+            ShowFilesAndDirs();
+        }
         public static void ShowFilesAndDirs()
         {
             //1
@@ -27,7 +33,7 @@ namespace HW5_prog1
             var redLinesCsv = File.ReadAllLines(pathToCsvFile);
             foreach (string line in redLinesCsv)
             {
-                string[] lines = line.Split(Delimeter);
+                string[] lines = line.Split(delimeter);
                 int i = 0;
                 ItemsForRecord.Types backMyType;
                 switch (lines[i])
@@ -43,9 +49,9 @@ namespace HW5_prog1
                         break;
                 }
                 contents.Add(new ItemsForRecord(
-                    Type: backMyType, 
-                    Name: lines[i+1], 
-                    LastDateTime: Convert.ToDateTime(lines[i+2])));
+                    Type: backMyType,
+                    Name: lines[i + 1],
+                    LastDateTime: Convert.ToDateTime(lines[i + 2])));
                 i++;
             }
 

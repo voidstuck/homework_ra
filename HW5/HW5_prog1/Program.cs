@@ -30,18 +30,18 @@ namespace HW5_prog1
 
             //2 Чтение файлов и папок
             List<ItemsForRecord> filesAndFolders;
-            filesAndFolders = ToolsForGettingFandD.GetFilesAndDirs(unzippedFolderPath);
+            filesAndFolders = ToolsForGettingFilesAndDirs.GetFilesAndDirs(unzippedFolderPath);
 
             //3 Запись инфы о содержимом в csv
             string csvFilePath = Path.Combine(targetFolder, "1.csv");
-            ToolsForGettingFandD.SaveFilesAndDirsInCsv(filesAndFolders, csvFilePath);
+            ToolsForGettingFilesAndDirs.SaveFilesAndDirsInCsv(filesAndFolders, csvFilePath);
 
             //4 Удаление распакованной папки
             if (Directory.Exists(unzippedFolderPath))
             {
                 Directory.Delete(unzippedFolderPath, true);
             }
-            
+
             //5 Сохранение пути к csv файлу в txt формате
             string savedPathFile = Path.Combine(targetFolder, pathToTxtFile);
             if (!Directory.Exists(Path.Combine(targetFolder, pathToTxtFile.Remove(7))))
@@ -54,9 +54,6 @@ namespace HW5_prog1
             }
             using (StreamWriter savePathToCsv = new StreamWriter(savedPathFile, false))
                 savePathToCsv.WriteLine(csvFilePath);
-
-            //Вторая программа
-            Program2.ShowFilesAndDirs();
         }
     }
 }
