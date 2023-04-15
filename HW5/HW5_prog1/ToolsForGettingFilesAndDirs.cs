@@ -38,13 +38,14 @@ namespace HW5_prog1
         }
 
         //чтобы записать в файл .csv
-        public static void SaveFilesAndDirsInCsv(List<ItemsForRecord> filesAndFolders, string csvFilePath)
+        //асинхронный
+        public static async Task SaveFilesAndDirsInCsv(List<ItemsForRecord> filesAndFolders, string csvFilePath)
         {
             if (!File.Exists(csvFilePath))
             {
                 File.Create(csvFilePath);
             }
-            using StreamWriter writer = new StreamWriter(csvFilePath, false);
+            await using StreamWriter writer = new StreamWriter(csvFilePath, false);
             foreach (var fileAndFolder in filesAndFolders)
             {
                 writer.WriteLine($"{fileAndFolder.Type}\t{fileAndFolder.Name}\t{fileAndFolder.LastDatetime}");

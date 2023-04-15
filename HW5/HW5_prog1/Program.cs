@@ -9,6 +9,7 @@
 5. Сохраняет путь к файлу csv в файле %AppData%/Lesson12Homework.txt
 */
 
+//Домашка 6-ая: переделать методы по работе с файлами под асинхронную работу (стрим райтер и стрим ридер)
 using System.IO.Compression;
 
 namespace HW5_prog1
@@ -19,7 +20,7 @@ namespace HW5_prog1
         public const string targetFolder = "D:\\Progs\\gitfolder\\SmartGit\\homework_ra.git\\HW5\\HW5_prog1";
         public const string pathToTxtFile = "AppData\\Lesson12Homework.txt";
 
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
             //1 Распаковка архива
             string unzippedFolderPath = Path.Combine(targetFolder, "test");
@@ -34,7 +35,7 @@ namespace HW5_prog1
 
             //3 Запись инфы о содержимом в csv
             string csvFilePath = Path.Combine(targetFolder, "1.csv");
-            ToolsForGettingFilesAndDirs.SaveFilesAndDirsInCsv(filesAndFolders, csvFilePath);
+            await ToolsForGettingFilesAndDirs.SaveFilesAndDirsInCsv(filesAndFolders, csvFilePath); //асинхронный теперь
 
             //4 Удаление распакованной папки
             if (Directory.Exists(unzippedFolderPath))
@@ -43,6 +44,10 @@ namespace HW5_prog1
             }
 
             //5 Сохранение пути к csv файлу в txt формате
+            await SavePathFile(csvFilePath);
+        }
+        public static async Task SavePathFile(string csvFilePath) //сделан асинхронным
+        {
             string savedPathFile = Path.Combine(targetFolder, pathToTxtFile);
             if (!Directory.Exists(Path.Combine(targetFolder, pathToTxtFile.Remove(7))))
             {
@@ -52,7 +57,7 @@ namespace HW5_prog1
             {
                 File.Create(savedPathFile);
             }
-            using (StreamWriter savePathToCsv = new StreamWriter(savedPathFile, false))
+            await using (StreamWriter savePathToCsv = new StreamWriter(savedPathFile, false))
                 savePathToCsv.WriteLine(csvFilePath);
         }
     }
